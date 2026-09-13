@@ -16,9 +16,9 @@
     {
       "title": "note-app",
       "width": 850,
-      "height": 140,
+      "height": 75,
       "decorations": false,
-      "resizable": true,
+      "resizable": false,
       "center": true,
       "transparent": true,
       "shadow": false
