@@ -14,9 +14,9 @@
     "macOSPrivateApi": true,
   "windows": [
     {
-      "title": "note-app",
-      "width": 850,
-      "height": 75,
+      "title": "tauri-app",
+      "width": 860,
+      "height": 85,
       "decorations": false,
       "resizable": false,
       "center": true,

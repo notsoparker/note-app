@@ -8,11 +8,6 @@ use cocoa::base::id;
 #[cfg(target_os = "macos")]
 use objc::{msg_send, sel, sel_impl};
 
-#[tauri::command]
-fn greet(name: &str) -> String {
-    format!("Hello, {}! You've been greeted from Rust!", name)
-}
-
 #[cfg(target_os = "macos")]
 fn round_window_corners(window: &tauri::WebviewWindow, radius: f64) {
     if let Ok(ns_window) = window.ns_window() {
@@ -49,12 +44,12 @@ pub fn run() {
                 .build(),
         )
         .setup(|app| {
-            let shortcut = "CmdOrCtrl+Shift+`";
+            let shortcut = "CmdOrCtrl+/";
             app.global_shortcut().register(shortcut)?;
 
             if let Some(window) = app.get_webview_window("main") {
                 #[cfg(target_os = "macos")]
-                round_window_corners(&window, 12.0);
+                round_window_corners(&window, 15.0);
 
                 let window_clone = window.clone();
                 window.on_window_event(move |event| {
@@ -67,7 +62,6 @@ pub fn run() {
 
             Ok(())
         })
-        .invoke_handler(tauri::generate_handler![greet])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
