@@ -1,22 +1,18 @@
-import { invoke } from "@tauri-apps/api/core";
+const MAX_NOTE_LENGTH = 75;
 
-let greetInputEl: HTMLInputElement | null;
-let greetMsgEl: HTMLElement | null;
+let noteEl: HTMLTextAreaElement | null;
+let charCountEl: HTMLElement | null;
 
-async function greet() {
-  if (greetMsgEl && greetInputEl) {
-    // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
-    greetMsgEl.textContent = await invoke("greet", {
-      name: greetInputEl.value,
-    });
-  }
+function updateCharCount() {
+  if (!noteEl || !charCountEl) return;
+  const length = noteEl.value.length;
+  charCountEl.textContent = `${length}`;
+  charCountEl.classList.toggle("limit-reached", length >= MAX_NOTE_LENGTH);
 }
 
 window.addEventListener("DOMContentLoaded", () => {
-  greetInputEl = document.querySelector("#greet-input");
-  greetMsgEl = document.querySelector("#greet-msg");
-  document.querySelector("#greet-form")?.addEventListener("submit", (e) => {
-    e.preventDefault();
-    greet();
-  });
+  noteEl = document.querySelector("#textarea");
+  charCountEl = document.querySelector("#char-count");
+  noteEl?.addEventListener("input", updateCharCount);
+  updateCharCount();
 });
