@@ -5,6 +5,8 @@
   --primary-color: #FFDC4E;
   --bg-color: #242424;
   --placeholder-color: #5f5f5f;
+  --hover-color: #3c3c3c;
+  --icon-color: #cfcfcf;
   --error-color: #ff5c5c;
 
   /* ---- Border ---- */
@@ -32,15 +34,15 @@ html, body {
   overflow: hidden;
 }
 
-#container {
-  width: 860px;
+#notebar {
+  width: 100%;
   height: 85px;
   background: var(--bg-color);
   border: var(--border-width) solid var(--bg-color);
   border-radius: 15px;  
-  display:block;
-  justify-content: center;
-  align-items: center;
+  display: flex;
+  position: relative;
+  flex-direction: column;
   padding: 4px;
 }
 
@@ -80,4 +82,48 @@ html, body {
 
 .char-count.limit-reached {
   color: var(--error-color);
+}
+
+#toolbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 8px;
+  border: none;
+  background: var(--bg-color);
+  color: var(--icon-color);
+  font-family: var(--font-family);
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background: var(--hover-color);
+}
+
+.btn svg {
+  width: 15px;
+  height: 15px;
+  fill: currentColor;
+  flex-shrink: 0;
+}
+
+.btn-pill {
+  height: 34px;
+  padding: 0 16px;
+  border-radius: 17px;
+  color: var(--primary-color);
+}
+
+.btn-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
 }
