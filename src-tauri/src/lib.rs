@@ -1,4 +1,5 @@
 mod platform;
+mod notes;
 
 use tauri::Manager;
 use tauri_plugin_global_shortcut::{GlobalShortcutExt, ShortcutState};
@@ -56,6 +57,8 @@ pub fn run() {
 
             Ok(())
         })
+
+        .invoke_handler(tauri::generate_handler![notes::save_note])
 
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

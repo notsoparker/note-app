@@ -1,3 +1,8 @@
+import { invoke } from "@tauri-apps/api/core";
+import { emit } from "@tauri-apps/api/event";
+import { goTo } from "../router";
+
+// Rendering
 export function render(): string {
     return `
 
@@ -29,15 +34,19 @@ export function render(): string {
     `;
 }
 
+// Initialize
 export function init() {
 
-    const MAX_NOTE_LENGTH = 75;
+    const MAX_TITLE_LENGTH = 75;
 
     let noteEl: HTMLTextAreaElement | null;
     let charCountEl: HTMLElement | null;
     let saveBtnEl: HTMLButtonElement | null;
     let listBtnEl: HTMLButtonElement | null;
 
+    // Functions
+
+    // List/Save Button State
     function updateListSaveButtonState() {
         if (!noteEl || !saveBtnEl || !listBtnEl) return;
         const hasText = noteEl.value.trim().length > 0;
@@ -45,11 +54,28 @@ export function init() {
         listBtnEl.hidden = hasText;
     }
 
+    // Character Counter
     function updateCharCount() {
         if (!noteEl || !charCountEl) return;
         const length = noteEl.value.length;
         charCountEl.textContent = `${length}`;
-        charCountEl.classList.toggle("limit-reached", length >= MAX_NOTE_LENGTH);
+        charCountEl.classList.toggle("limit-reached", length >= MAX_TITLE_LENGTH);
+    }
+
+    // Save Note
+    async function saveNote() {
+        if (!noteEl) return;
+        const text = noteEl.value.trim();
+        if (!text) return;
+
+        const title = await invoke<string>("save_note", { text });
+        await emit("note-saved", { text, title });
+
+        noteEl.value = "";
+        updateCharCount();
+        updateListSaveButtonState();
+
+        await goTo("view-note");
     }
 
     noteEl = document.querySelector("#textarea");
@@ -57,12 +83,20 @@ export function init() {
     saveBtnEl = document.querySelector("#save-btn");
     listBtnEl = document.querySelector("#list-btn");
 
+    // Listeners
+
     noteEl?.addEventListener("input", () => {
         updateCharCount();
         updateListSaveButtonState();
     });
 
-    updateCharCount();
-    updateListSaveButtonState();
+    saveBtnEl?.addEventListener("click", saveNote);
+
+    noteEl?.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+            e.preventDefault();
+            saveNote();
+        }
+    });
 
 }
