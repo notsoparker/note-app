@@ -1,5 +1,5 @@
-import { navigate } from "../src/router";
+import { mountCurrentView } from "./router";
 
 window.addEventListener("DOMContentLoaded", () => {
-  navigate("create-note");
+  mountCurrentView();
 });

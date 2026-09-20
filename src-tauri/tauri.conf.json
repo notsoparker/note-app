@@ -14,14 +14,39 @@
     "macOSPrivateApi": true,
   "windows": [
     {
-      "title": "tauri-app",
+      "label": "create-note",
+      "title": "New Note",
       "width": 860,
       "height": 150,
       "decorations": false,
       "resizable": false,
       "center": true,
       "transparent": true,
-      "shadow": false
+      "shadow": false,
+      "visible": true
+    },
+    {
+      "label": "view-note",
+      "title": "NOTE NAME",
+      "width": 700,
+      "height": 450,
+      "decorations": true,
+      "resizable": true,
+      "center": true,
+      "transparent": false,
+      "shadow": true,
+      "visible": false
+    },
+    {
+      "label": "list-note",
+      "title": "Notes",
+      "width": 300,
+      "height": 800,
+      "decorations": true,
+      "resizable": false,
+      "transparent": false,
+      "shadow": true,
+      "visible": false
     }
   ],
     "security": {

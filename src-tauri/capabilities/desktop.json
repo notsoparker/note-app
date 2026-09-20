@@ -6,7 +6,9 @@
     "linux"
   ],
   "windows": [
-    "main"
+    "create-note", 
+    "view-note", 
+    "list-note"
   ],
   "permissions": [
     "global-shortcut:default"
