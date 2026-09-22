@@ -39,8 +39,8 @@ export function render(): string {
 
 export function init() {
 
-    const titleEl = document.querySelector<HTMLTextAreaElement>("#title-input");
-    const bodyEl = document.querySelector<HTMLTextAreaElement>("#body-input");
+    const titleEl = document.querySelector<HTMLTextAreaElement>("#titleinput");
+    const bodyEl = document.querySelector<HTMLTextAreaElement>("#bodyinput");
 
     listen<NoteSavedPayload>("note-saved", (event) => {
         if (titleEl) titleEl.value = event.payload.title;

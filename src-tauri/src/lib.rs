@@ -3,6 +3,9 @@ mod notes;
 
 use tauri::Manager;
 use tauri_plugin_global_shortcut::{GlobalShortcutExt, ShortcutState};
+use std::sync::Mutex;
+
+struct LastVisible(Mutex<String>);
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 
@@ -14,15 +17,29 @@ pub fn run() {
         .plugin(
             tauri_plugin_global_shortcut::Builder::new()
                 .with_handler(|app, shortcut, event| {
-                    if event.state() == ShortcutState::Pressed {
-                        println!("Hotkey pressed: {:?}", shortcut);
-                        if let Some(window) = app.get_webview_window("create-note") {
-                            if window.is_visible().unwrap_or(false) {
-                                let _ = window.hide();
-                            } else {
-                                let _ = window.show();
-                                let _ = window.set_focus();
-                            }
+                    if event.state() != ShortcutState::Pressed {
+                        return;
+                    }
+                    println!("Hotkey pressed: {:?}", shortcut);
+
+                    let visible: Vec<(String, tauri::WebviewWindow)> = app
+                        .webview_windows()
+                        .into_iter()
+                        .filter(|(_, window)| window.is_visible().unwrap_or(false))
+                        .collect();
+
+                    if visible.is_empty() {
+                        let label = app.state::<LastVisible>().0.lock().unwrap().clone();
+                        if let Some(window) = app.get_webview_window(&label) {
+                            let _ = window.show();
+                            let _ = window.set_focus();
+                        }
+                    } else {
+                        if let Some((label, _)) = visible.first() {
+                            *app.state::<LastVisible>().0.lock().unwrap() = label.clone();
+                        }
+                        for (_, window) in &visible {
+                            let _ = window.hide();
                         }
                     }
                 })
@@ -30,6 +47,8 @@ pub fn run() {
         )
 
         .setup(|app| {
+            app.manage(LastVisible(Mutex::new("create-note".to_string())));
+
             let shortcut = "CmdOrCtrl+/";
             app.global_shortcut().register(shortcut)?;
 
