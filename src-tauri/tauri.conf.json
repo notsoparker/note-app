@@ -28,13 +28,13 @@
     {
       "label": "view-note",
       "title": "NOTE NAME",
-      "width": 700,
-      "height": 450,
-      "decorations": true,
+      "width": 860,
+      "height": 460,
+      "decorations": false,
       "resizable": true,
       "center": true,
-      "transparent": false,
-      "shadow": true,
+      "transparent": true,
+      "shadow": false,
       "visible": false
     },
     {
