@@ -127,11 +127,17 @@ html, body {
   row-gap: 5px;
 }
 
+#notetitle {
+  display: flex;
+  align-items: center;
+  column-gap: 5px;
+}
+
 #titleinput {
   height: auto;
-  width: 100%;
+  flex: 1;
   border: var(--border-width) solid var(--bg-alt-color);
-  border-radius: 12px;  
+  border-radius: 5px;  
   outline: none;
   resize: none;
   background: var(--bg-alt-color);
@@ -238,6 +244,35 @@ html, body {
   flex-shrink: 0;
 }
 
+/* -- Title Button -- */
+.btn-tlt {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  border: none;
+  background: var(--bg-alt-color);
+  color: var(--primary-color);
+  font-family: var(--font-family);
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.btn-tlt[hidden] {
+  display: none;
+}
+
+.btn-tlt:hover {
+  background: var(--hover-color);
+}
+
+.btn-tlt svg {
+  width: 21px;
+  height: 21px;
+  fill: var(--border-color);
+  flex-shrink: 0;
+}
+
 /* -- Button Components -- */
 .btn-pill {
   height: 34px;
@@ -249,5 +284,12 @@ html, body {
   width: 34px;
   height: 34px;
   border-radius: 50%;
+  color: var(--icon-color);
+}
+
+.btn-square {
+  width: 41px;
+  height: 41px;
+  border-radius: 5px;
   color: var(--icon-color);
 }
